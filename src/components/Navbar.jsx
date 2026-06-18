@@ -24,7 +24,10 @@ export default function Navbar() {
   const handleNav = (href) => {
     setOpen(false);
     setActive(href.replace("#", ""));
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+
+    document.querySelector(href)?.scrollIntoView({
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -33,95 +36,116 @@ export default function Navbar() {
       style={{
         background: scrolled
           ? "rgba(5,11,24,0.92)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(0,212,255,0.1)" : "none",
+          : "rgba(5,11,24,0.3)",
+        backdropFilter: "blur(20px)",
+        borderBottom: scrolled
+          ? "1px solid rgba(0,212,255,0.1)"
+          : "1px solid transparent",
       }}
     >
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-20">
         {/* Logo */}
         <a
           href="#home"
           onClick={() => handleNav("#home")}
-          className="flex items-center gap-2 font-bold text-lg"
+          className="flex items-center gap-3 font-bold text-xl"
           style={{ fontFamily: "Space Grotesk, sans-serif" }}
         >
           <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg,#00d4ff,#7c3aed)" }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg,#00d4ff,#7c3aed)",
+            }}
           >
-            <Code2 size={18} color="white" strokeWidth={2.5} />
+            <Code2 size={20} color="white" strokeWidth={2.5} />
           </div>
+
           <span className="gradient-text">PM</span>
         </a>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-1">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
           {navLinks.map((link) => {
             const isActive = active === link.href.replace("#", "");
+
             return (
               <button
                 key={link.href}
                 onClick={() => handleNav(link.href)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-300"
                 style={{
                   color: isActive ? "#00d4ff" : "#94a3b8",
-                  background: isActive ? "rgba(0,212,255,0.08)" : "transparent",
+                  background: isActive
+                    ? "rgba(0,212,255,0.08)"
+                    : "transparent",
                 }}
                 onMouseEnter={(e) => {
-                  if (!isActive) e.target.style.color = "#f0f6ff";
+                  if (!isActive) {
+                    e.target.style.color = "#f8fafc";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  if (!isActive) e.target.style.color = "#94a3b8";
+                  if (!isActive) {
+                    e.target.style.color = "#94a3b8";
+                  }
                 }}
               >
                 {link.label}
               </button>
             );
           })}
+
           <a
             href="/resume.pdf"
             download
-            className="btn-primary ml-3"
-            style={{ padding: "8px 20px", fontSize: "0.82rem" }}
+            className="btn-primary ml-4"
+            style={{
+              padding: "10px 22px",
+              fontSize: "0.9rem",
+            }}
           >
             Resume
           </a>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile Menu Button */}
         <button
           className="md:hidden p-2 rounded-lg"
           style={{ color: "#00d4ff" }}
           onClick={() => setOpen(!open)}
         >
-          {open ? <X size={22} /> : <Menu size={22} />}
+          {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {open && (
         <div
-          className="md:hidden px-6 pb-6 pt-2"
+          className="md:hidden px-6 pb-6 pt-4"
           style={{
-            background: "rgba(5,11,24,0.97)",
+            background: "rgba(5,11,24,0.98)",
             borderBottom: "1px solid rgba(0,212,255,0.1)",
           }}
         >
-          {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => handleNav(link.href)}
-              className="block w-full text-left px-4 py-3 rounded-lg mb-1 text-sm font-medium transition-all"
-              style={{ color: "#94a3b8" }}
-            >
-              {link.label}
-            </button>
-          ))}
+          <div className="flex flex-col gap-2">
+            {navLinks.map((link) => (
+              <button
+                key={link.href}
+                onClick={() => handleNav(link.href)}
+                className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all"
+                style={{
+                  color: "#94a3b8",
+                }}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+
           <a
             href="/resume.pdf"
             download
-            className="btn-primary mt-3 w-full justify-center"
+            className="btn-primary mt-4 w-full flex justify-center"
           >
             Download Resume
           </a>
